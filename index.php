@@ -1,10 +1,3 @@
-<?php
-
-
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -47,33 +40,91 @@
                     <?php
                     include 'database.php';
                     $pdo = Database::conectar();
-                    $sql = 'SELECT * FROM contatos ORDER BY id DESC';
-                    
-                
 
-                    foreach($pdo->query($sql)as $row)
-                    {
-                        echo '<tr>';
-                                echo '<th scope="row">'. $row['id'] . '</th>';
-                        echo '<td>'. $row['nome'] . '</td>';
-                        echo '<td>'. $row['email'] . '</td>';
-                        echo '<td>'. $row['telefone'] . '</td>';
-                        echo '<td width=250>';
-                        echo '<a class="btn btn-primary" href="read.php?id='.$row['id'].'">Info</a>';
-                        echo ' ';
-                        echo '<a class="btn btn-warning" href="update.php?id='.$row['id'].'">Atualizar</a>';
-                        echo ' ';
-                        echo '<a class="btn btn-danger" href="delete.php?id='.$row['id'].'">Excluir</a>';
-                        echo '</td>';
-                        echo '</tr>';
+                    $limite = 10;
+
+                    $pg = (isset($_GET['pg'])) ? (int)$_GET['pg'] : 1;
+
+                    $inicio = ($pg * $limite) - $limite;
+
+                    $sql = "SELECT * FROM contatos ORDER BY id DESC LIMIT ".$inicio.",".$limite;
+
+
+                    try {
+                        $query = $pdo->prepare($sql);
+                        $query->execute();
+                    } catch (PDOException $e) {
+                        echo 'Erro ao retornar os Dados.'.$e->getMessage();
                     }
-                    Database::desconectar();
+
+                    while($linha = $query->fetch(PDO::FETCH_ASSOC)) {
+
+                        echo '<tr>';
+                        echo '<th scope="row">'.$id = $linha['id'] . '</th>';
+
+                        echo '<td>'.$nome = $linha['nome'] .     '</td>';
+                        echo '<td>'.$email = $linha['email'] .    '</td>';
+                        echo '<td>'.$telefone = $linha['telefone'] . '</td>';
+
+                        echo '<td width=250>';
+                        echo '<a class="btn btn-primary" href="read.php?id='    .$linha['id'].'">Info</a>';
+                        echo ' ';
+                        echo '<a class="btn btn-warning" href="update.php?id='  .$linha['id'].'">Atualizar</a>';
+                        echo ' ';
+                        echo '<a class="btn btn-danger" href="delete.php?id='   .$linha['id'].'">Excluir</a>';
+                        echo '</td>';
+                        echo '</tr>'; 
+                    }
+
+                    $sql_total = 'SELECT id FROM contatos';
+
+
+                    try {
+                        $query_total = $pdo->prepare($sql_total);
+                        $query_total->execute();
+
+                        $query_result = $query_total->fetchAll(PDO::FETCH_ASSOC);
+                        $query_count = $query_total->rowCount(PDO::FETCH_ASSOC);
+
+                        $qtdPg = ceil($query_count / $limite);
+
+                    } catch (PDOException $e) {
+                        echo 'Erro ao retornar os Dados. '.$e->getMessage();
+                    }
+
                     ?>
                 </tbody>
             </table>
-        </div>
-        <div class="footer-section">
-        
+
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="index.php?pg=1" tabindex="-1">Início</a>
+                    </li>
+
+                    <?php 
+                    
+                    if ($qtdPg > 1 && $pg<= $qtdPg){
+                        for ($i=1; $i <= $qtdPg; $i++){
+                            if ($i == $pg){
+                                echo "<a class='page-link' href='index.php?pg=$i'>".$i."</a>";
+                            } else {
+                                echo "<li class='page-item'>";
+                                
+                                echo "<a class='page-link' href='index.php?pg=$i'>".$i."</a>";
+                                
+                                echo "</li>";
+                            }
+                        }
+                    }
+
+                    echo "<li class='page-item'>";
+                        echo "<a class='page-link' href='index.php?pg=$qtdPg'>Último</a>";
+                    echo "</li>";
+                    
+                    ?>
+                </ul>
+            </nav>
         </div>
     </div>
 </body>
