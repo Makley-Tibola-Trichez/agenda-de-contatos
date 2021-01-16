@@ -26,7 +26,7 @@ Database::desconectar();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <title>Área de pesquisar</title>
+    <title>Buscar por Contatos</title>
 </head>
 
 <body>
@@ -74,7 +74,6 @@ Database::desconectar();
                 </thead>
                 <tbody>
                     <?php
-                    // include 'database.php';
                     $pdo = Database::conectar();
                     $sql = 'SELECT * FROM contatos ORDER BY id DESC';
 
@@ -103,7 +102,4 @@ Database::desconectar();
         </div>
     </div>
 </body>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
 </html>
