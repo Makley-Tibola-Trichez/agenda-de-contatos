@@ -11,3 +11,5 @@
 3º Iniciar o servidor Apache e o MySQL e entrar no PhpMyAdmin.
 
 4º Executar os comandos dentro do arquivo database.sql do repositório no PhpMyAdmin.
+
+5º Verificar as configurações do banco de dados no arquivo database.php.
