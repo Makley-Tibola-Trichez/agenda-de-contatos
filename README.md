@@ -1,7 +1,4 @@
-# Agenda de contatos
-
 # Instruções:
-<br>
 
 1º instalar os recursos: MySQL, Apache, PHP 7.x e o PhpMyAdmin através do XAMPP.
 
