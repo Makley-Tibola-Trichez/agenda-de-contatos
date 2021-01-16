@@ -36,7 +36,7 @@ if (!empty($_POST)) {
     }
 
     if (empty($telefone)) {
-        $telefoneErro = 'Por favor preencher o campo!';
+        $telefoneErro = 'Por favor insira um número de telefone!';
         $validacao = false;
     }
 
